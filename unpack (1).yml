@@ -1,0 +1,41 @@
+name: Unpack site
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'HB10-site.zip'
+permissions:
+  contents: write
+  pages: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the zip file exists
+        run: |
+          if [ ! -f HB10-site.zip ]; then
+            echo "HB10-site.zip is not in the repository root. Upload it first, then run again."
+            exit 1
+          fi
+      - name: Replace repo content with the site
+        run: |
+          mkdir _new
+          unzip -q HB10-site.zip -d _new
+          test -f _new/index.html
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name _new -exec rm -rf {} +
+          cp -r _new/. .
+          rm -rf _new
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Restore full site" || exit 0
+          git push
+      - name: Trigger Pages build
+        run: |
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ github.token }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/pages/builds || true
