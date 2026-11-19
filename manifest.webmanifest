@@ -8,7 +8,7 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#FFFFFF",
+  "background_color": "#102B4C",
   "theme_color": "#102B4C",
   "categories": [
     "education"
@@ -27,7 +27,7 @@
       "purpose": "any"
     },
     {
-      "src": "assets/img/hbe-logo-512.png",
+      "src": "assets/img/hbe-logo-512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

@@ -1,9 +1,11 @@
 /* Service worker — Hussein Badr English
    Strategy: pages = network-first with cache + offline fallback; static assets = stale-while-revalidate. */
-const VERSION = 'hbe-v6';
+const VERSION = 'hbe-v7';
 const PRECACHE = [
  "./",
  "about.html",
+ "brand.html",
+ "assets/css/brand.css?v=7",
  "accessibility.html",
  "certificate.html",
  "contact.html",
